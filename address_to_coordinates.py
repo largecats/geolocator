@@ -22,18 +22,7 @@ inputFileName = "addresses.csv"
 outputFileName = "coordinates.csv"
 pauseTime = [1,3]
 
-# set up locator
-geolocator = googlemaps.Client(key = API_key)
-
-# set up output file
-with open(outputFileName, 'w', encoding = 'UTF-8', newline = "") as outputFile:
-  colNames = ['addresses', 'coordinates']
-  writer = csv.writer(outputFile)
-  writer.writerow(colNames)
-
-##################################################
-#                helper functions                #
-##################################################
+# read in addresses
 def read_csv_into_list(fileName):
   data = []
   with open(fileName, 'r', encoding = 'UTF-8') as f:
@@ -44,12 +33,20 @@ def read_csv_into_list(fileName):
   data.pop(0)
   return data
 
+addressList = read_csv_into_list(inputFileName)
+
+# set up locator
+geolocator = googlemaps.Client(key = API_key)
+
+# set up output file
+with open(outputFileName, 'w', encoding = 'UTF-8', newline = "") as outputFile:
+  colNames = ['addresses', 'coordinates']
+  writer = csv.writer(outputFile)
+  writer.writerow(colNames)
+
 ##################################################
 #                   main work                    #
 ##################################################
-# read in addresses
-addressList = read_csv_into_list(inputFileName)
-
 for address in addressList:
   # pause the loop for a random amount of time
   sleep(random.randint(pauseTime[0], pauseTime[1]))
